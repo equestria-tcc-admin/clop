@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Эквестрийская клопедия</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10"></script>
+    <link rel="stylesheet" href="./style.css" />
+    <script defer src="./clop.js"></script>
+  </head>
+
+  <body>
+    <div id="clop" class="bg">
+
+      <header>
+        <input class="search" v-model="search" v-on:keyup="searchf" placeholder="Поиск" /> <b>Клопедия</b>
+      </header>
+
+      <div id="content">
+        <div class="search-list" v-bind:style="[searcha ? {display: 'block'} : '']">
+          <div id="list">
+          <div id="cards" v-if="!search">Начните вводить в поиск</div>
+          <div id="cards" v-if="!searchResult['0'] && search">Нету результатов</div>
+            <div v-for="card in searchResult" id="cards">
+                <card v-bind:card="cards[card.id]"></card> <span class="username" v-bind:style="{color: cards[card.id].color}">{{cards[card.id].name}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="content-info">
+          <div v-if="cards[selected]" class="title">{{cards[selected].name}}</div>
+          <div v-if="cards[selected]" class="info">
+              <card v-if="cards[selected]" v-bind:card="cards[selected]"></card><div v-if="cards[selected]" v-html="cards[selected].description" class="description"></div>
+          </div>
+
+          <div v-if="recipesResult['0']" class="title">Рецепты:</div>
+          <div v-if="recipesResult['0']" class="recipes">
+            <div v-for="card in recipesResult" class="recipess">
+
+              <card v-if="card['0'] && card['0'] != 'ALTERSHY'" v-bind:card="cards[card['0']]"></card>
+              <card v-if="card['0'] == 'ALTERSHY'" v-bind:card="cards['fluttergoth']"></card>
+              <card v-if="card['0'] == 'ALTERSHY'" v-bind:card="cards['hipstershy']"></card>
+              <card v-if="card['0'] == 'ALTERSHY'" v-bind:card="cards['severeshy']"></card> =
+              <card v-if="card['1']" v-bind:card="cards[card['1']]"></card>
+              <card v-if="card['2']" v-bind:card="cards[card['2']]"></card>
+              <card v-if="card['3']" v-bind:card="cards[card['3']]"></card>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+</html>
