@@ -14,20 +14,24 @@ let clop = new Vue({
     methods: {
         searchf() {
             clop.searcha = true;
-            clop.searchResult = [];
 
-            if (clop.search) {
-                for (let key in clop.cards) {
-                    const name = String(clop.cards[key].name);
-                    if (!name) continue;
+            if (!clop.search) {
+                clop.searchResult = [];
+                return;
+            }
 
-                    if (String(name).toLowerCase().includes(clop.search.toLowerCase())) {
-                        clop.searchResult.push({id: key, name: clop.cards[key].name});
-                    }
+            const results = [];
+
+            for (let key in clop.cards) {
+                const name = String(clop.cards[key].name);
+                if (!name) continue;
+
+                if (String(name).toLowerCase().includes(clop.search.toLowerCase())) {
+                    results.push({id: key, name: clop.cards[key].name});
                 }
             }
 
-            clop.searchResult.sort(compare)
+            clop.searchResult = results.sort(compare)
         },
 
         select(card) {
@@ -79,7 +83,8 @@ document.querySelector("#clop > header > input.search").onfocus = function() {
 
     Vue.set(clop.cards, 'GENERAL', {id: "GENERAL", avatar: "/img/actors/nopony.png", name: "Обычная карта", color: "#000", tags: ["GENERAL"]});
     Vue.set(clop.cards, 'FUSABLE', {id: "FUSABLE", avatar: "/img/actors/nopony.png", name: "Карта со сплошным краем", color: "#000", tags: ["FUSABLE"]});
-    clop.select("spike");
+
+    clop.select(document.location.hash.slice(1) || "spike");
 })();
 
 function compare(a,b) {
