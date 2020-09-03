@@ -34,7 +34,7 @@
           <div v-if="cards[selected]" class="info">
               <card v-if="cards[selected]" v-bind:card="cards[selected]"></card>
               <div v-if="cards[selected]" v-html="cards[selected].description" class="description"></div>
-              <div v-if="cards[selected]" v-html="`!pony(${cards[selected].id})`" class="pony-code"></div>
+              <div v-if="cards[selected] && cards[selected].avatar" v-html="`!pony(${cards[selected].id})`" class="pony-code"></div>
           </div>
 
           <div v-if="recipesResult['0']" class="title">Рецепты:</div>
