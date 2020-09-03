@@ -38,6 +38,8 @@ let clop = new Vue({
             Vue.set(clop, "selected", card);
             clop.recipesResult = [];
 
+            window.location.hash = this.cards[card].id;
+
             if (card == "fluttergoth" || card == "hipstershy" || card == "severeshy") {
                 clop.recipesResult.push(["ALTERSHY", "fluttershy", "white-card"]);
             }
