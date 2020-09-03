@@ -33,7 +33,7 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-image: url(https://www.equestria-tcc.ru/img/wbgn.jpg);
+    background-image: url(https://www.equestria-tcc.ru/img/bg);
     background-size: cover;
     background-position: center;
     display: flex;
@@ -117,6 +117,7 @@ header input[type="checkbox"] {
 
 .info {
     display: flex;
+    flex-wrap: wrap;
     background: rgba(255,255,255,.25);
     border-radius: 0px 0px 10px 10px;
     padding: 4px;
@@ -126,9 +127,19 @@ header input[type="checkbox"] {
 .description {
     background: rgba(255, 255, 255, 0.85);
     border-radius: 10px 10px 10px 10px;
-    width: 100%;
+    flex-grow: 1;
+    flex-basis: 0;
     padding: 4px;
     margin: 0 0 0 4px;
+}
+
+.pony-code {
+    background: rgba(255, 255, 255, 0.85);
+    flex-basis: 100%;
+    border-radius: 10px 10px 10px 10px;
+    flex-grow: 1;
+    padding: 4px;
+    margin: 4px 0 0 4px;
 }
 
 .title {
