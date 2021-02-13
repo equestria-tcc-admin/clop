@@ -1,59 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
-
-  <head>
+<html lang="ru">
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Эквестрийская клопедия</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10"></script>
+    <script src="https://unpkg.com/vue@next/dist/vue.global.prod.js"></script>
     <link rel="stylesheet" href="./style.css" />
     <script defer src="./clop.js"></script>
-  </head>
+</head>
+<body>
+    <div id="app" class="bg">
+        <div id="main">
+            <div class="content">
+                <header>
+                    <input id="search" class="search" v-model="search" @keyup="inputSearch" placeholder="Поиск" autocomplete="off"/> <b>Клопедия</b>
+                </header>
 
-  <body>
-    <div id="clop" class="bg">
+                <div id="content-info">
+                    <div v-if="cards[selected]" class="title">{{cards[selected].name}}</div>
+                    <div v-if="cards[selected]" class="info">
+                        <card v-if="cards[selected]" :card="cards[selected]"></card>
+                        <div v-if="cards[selected]" v-html="cards[selected].description" class="description"></div>
+                        <div v-if="cards[selected] && cards[selected].avatar" class="pony-code">!pony({{cards[selected].id}})</div>
+                    </div>
 
-      <header>
-        <input class="search" v-model="search" v-on:keyup="searchf" placeholder="Поиск" /> <b>Клопедия</b>
-      </header>
+                    <div v-if="recipesResult['0']" class="title">Рецепты:</div>
+                    <div class="scroll">
+                        <div v-if="recipesResult['0']" class="content">
 
-      <div id="content">
-        <div class="search-list" v-bind:style="[searcha ? {display: 'block'} : '']">
-          <div id="list">
-          <div id="cards" v-if="!search">Начните вводить в поиск</div>
-          <div id="cards" v-if="!searchResult['0'] && search">Нету результатов</div>
-            <div v-for="card in searchResult" id="cards">
-                <card v-bind:card="cards[card.id]"></card> <span class="username" v-bind:style="{color: cards[card.id].color}">{{cards[card.id].name}}</span>
+                            <div v-if="recipesResult['0']" id="scroll" class="recipes">
+                                <div v-for="card in recipesResult" class="recipe">
+
+                                    <card v-if="card['0'] && !Array.isArray(card['0'])" :card="cards[card['0']]"></card>
+                                    <span v-else v-for="cardTag in card['0']">
+                                        <card :card="cards[cardTag]"></card>
+                                    </span>
+                                    =
+                                    <card v-if="card['1']" :card="cards[card['1']]"></card>
+                                    <card v-if="card['2']" :card="cards[card['2']]"></card>
+                                    <card v-if="card['3']" :card="cards[card['3']]"></card>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-list" :style="[searchFocus ? {display: 'block'} : '']">
+                    <div class="scroll">
+                        <div class="content">
+                            <div id="cards" v-if="!search">Начните вводить в поиск</div>
+                            <div id="cards" v-if="!searchResult['0'] && search">Нету результатов</div>
+                            <div v-for="card in searchResult" id="cards">
+                                <card :card="cards[card.id]"></card> <span class="username" :style="{color: cards[card.id].color}">{{cards[card.id].name}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
-          </div>
         </div>
-
-        <div id="content-info">
-          <div v-if="cards[selected]" class="title">{{cards[selected].name}}</div>
-          <div v-if="cards[selected]" class="info">
-              <card v-if="cards[selected]" v-bind:card="cards[selected]"></card>
-              <div v-if="cards[selected]" v-html="cards[selected].description" class="description"></div>
-              <div v-if="cards[selected] && cards[selected].avatar" v-html="`!pony(${cards[selected].id})`" class="pony-code"></div>
-          </div>
-
-          <div v-if="recipesResult['0']" class="title">Рецепты:</div>
-          <div v-if="recipesResult['0']" class="recipes">
-            <div v-for="card in recipesResult" class="recipess">
-
-              <card v-if="card['0'] && card['0'] != 'ALTERSHY'" v-bind:card="cards[card['0']]"></card>
-              <card v-if="card['0'] == 'ALTERSHY'" v-bind:card="cards['fluttergoth']"></card>
-              <card v-if="card['0'] == 'ALTERSHY'" v-bind:card="cards['hipstershy']"></card>
-              <card v-if="card['0'] == 'ALTERSHY'" v-bind:card="cards['severeshy']"></card> =
-              <card v-if="card['1']" v-bind:card="cards[card['1']]"></card>
-              <card v-if="card['2']" v-bind:card="cards[card['2']]"></card>
-              <card v-if="card['3']" v-bind:card="cards[card['3']]"></card>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
-
-  </body>
+</body>
 </html>
